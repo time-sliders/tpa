@@ -1,3 +1,5 @@
+package dependency;
+
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 
@@ -15,7 +17,7 @@ public class VelocityFactory {
 		prop.put("input.encoding", "UTF-8");
 		prop.put("output.encoding", "UTF-8");
 		prop.setProperty("resource.loader", "class");
-		prop.setProperty("class.resource.loader.class","URIResourceLoader" );
+		prop.setProperty("class.resource.loader.class","dependency.URIResourceLoader" );
 		prop.setProperty("runtime.log.logsystem.class","org.apache.velocity.runtime.log.Log4JLogChute" );
 		prop.setProperty("runtime.log.logsystem.log4j.logger","E" );
 		prop.setProperty("log4j.logger.org.apache.velocity","ERROR" );

@@ -1,3 +1,5 @@
+package dependency;
+
 import org.apache.velocity.VelocityContext;
 
 import java.io.ByteArrayOutputStream;

@@ -1,3 +1,6 @@
+
+import dependency.*;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -10,12 +13,7 @@ import java.util.zip.CheckedOutputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-/**
- * @author luyun
- * @version APP 6.6 (Fund aip)
- * @since 2017.05.17
- */
-public class BuildVelocityFile {
+public class JavaCodeGenerator {
 
     private static final String ip = "192.168.1.16";
     private static final String port = "3306";
@@ -24,15 +22,12 @@ public class BuildVelocityFile {
     private static final String password = "tbj900900";
 
     public static void main(String[] args) {
-
         String[] tables = new String[]{
                 "advance_transfer_plan"
         };
-
         for (String tableName : tables) {
             buildZipFile(tableName);
         }
-
     }
 
     private static void buildZipFile(String table) {
@@ -46,7 +41,7 @@ public class BuildVelocityFile {
             tableConfig.setBeanName(beanName);
             tableConfig.setInjectName(StringUtils.getFistLowName(beanName));
 
-            File file = new File("~/Downloads/" + beanName + ".zip");
+            File file = new File("/Users/zhangwei/Downloads/" + beanName + ".zip");
             if (file.exists() && !file.delete()) {
                 throw new RuntimeException("delete fail");
             }

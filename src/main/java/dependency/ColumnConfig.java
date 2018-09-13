@@ -1,3 +1,5 @@
+package dependency;
+
 public class ColumnConfig {
 
     private boolean isPrimaryKey;

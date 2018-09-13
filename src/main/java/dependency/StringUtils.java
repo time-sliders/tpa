@@ -1,7 +1,9 @@
+package dependency;
+
 public class StringUtils {
 
 
-    static String getSimpleName(String s){
+    public static String getSimpleName(String s){
         if (s.contains(".")){
             return s.substring(s.lastIndexOf(".") + 1);
         }
@@ -17,7 +19,7 @@ public class StringUtils {
     }
 
 
-    static String getFistLowName(String s){
+    public static String getFistLowName(String s){
         StringBuilder sb = new StringBuilder(s);
         sb.setCharAt(0, String.valueOf(sb.charAt(0)).toLowerCase().charAt(0));
         return sb.toString();
@@ -44,7 +46,7 @@ public class StringUtils {
         return sb.toString();
     }
 
-    static String getJavaName(String s){
+    public static String getJavaName(String s){
         if (s == null || s.length() == 0){
             return s;
         }

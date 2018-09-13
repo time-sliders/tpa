@@ -1,3 +1,5 @@
+package dependency;
+
 import org.apache.commons.collections.ExtendedProperties;
 import org.apache.commons.lang.StringUtils;
 import org.apache.velocity.exception.ResourceNotFoundException;
@@ -40,13 +42,13 @@ public class URIResourceLoader extends ClasspathResourceLoader {
             throw new ResourceNotFoundException("No template name provided");
         }
 
-        /**
+        /*
          * look for resource in thread classloader first (e.g. WEB-INF\lib in
          * a servlet container) then fall back to the system classloader.
          */
 
         try {
-            org.springframework.core.io.Resource[] res = resourcePatternResolver.getResources("classpath*:/META-INF/" + name);
+            org.springframework.core.io.Resource[] res = resourcePatternResolver.getResources("classpath:" + name);
             if (res != null && res.length == 1){
                 result = new VTLIndentationGlobber(res[0].getInputStream());
             }
