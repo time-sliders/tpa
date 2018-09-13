@@ -1,0 +1,57 @@
+package 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.util.Assert;
+
+@Service
+public class ${table.beanName}ManageFacadeImpl implements ${table.beanName}ManageFacade {
+	private static final Logger logger = LoggerFactory.getLogger(${table.beanName}ManageFacadeImpl.class);
+
+	@Autowired
+	private ${table.beanName}Service ${table.injectName}Service;
+
+    @Autowired
+    private ${table.beanName}DTOConverter converter;
+
+    @Override
+    public Result<Boolean> updateById(${table.beanName}DTO updateParam){
+    	try {
+			Assert.notNull(updateParam, "待更新参数不能为空");
+			Assert.notNull(updateParam.getId(), "待更新记录编号不能为空");
+
+			int updateResult = ${table.injectName}Service.updateById(converter.toModel(updateParam));
+			if (updateResult > 0) {
+				return Result.buildSucc(true);
+			} else {
+				return Result.buildSucc(false);
+			}
+		} catch (Exception ex) {
+			logger.warn("更记录信息异常", ex);
+
+			return Result.buildFail(ResultCodeConstants.ERROR_CODE, ex.getMessage());
+		}
+    }
+
+    @Override
+    public Result<Boolean> insert(${table.beanName}DTO ${table.injectName}DTO){
+    	try {
+			Assert.notNull(${table.injectName}DTO, "待新增记录参数不能为空");
+
+			int insertResult = ${table.injectName}Service.insert(converter.toModel(${table.injectName}DTO));
+			if (insertResult > 0) {
+				return Result.buildSucc(true);
+			} else {
+				return Result.buildSucc(false);
+			}
+		} catch (Exception ex) {
+			logger.warn("新增记录信息异常", ex);
+
+			return Result.buildFail(ResultCodeConstants.ERROR_CODE, ex.getMessage());
+		}
+    }
+
+
+}

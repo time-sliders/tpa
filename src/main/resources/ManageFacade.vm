@@ -1,0 +1,17 @@
+package 
+import java.util.List;
+
+public interface ${table.beanName}ManageFacade {
+
+    /**
+     * 根据id更新一调数据
+     *
+     * @param updateParam 更新参数
+     */
+    Result<Boolean> updateById(${table.beanName}DTO updateParam);
+
+    /**
+     * 新增一条记录
+     */
+    Result<Boolean> insert(${table.beanName}DTO ${table.injectName});
+}

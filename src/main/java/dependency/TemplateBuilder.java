@@ -16,6 +16,15 @@ public class TemplateBuilder {
     public final static String ServiceImpl = "ServiceImpl.vm";
     public final static String DOConverter = "DOConverter.vm";
 
+    public final static String Query = "Query.vm";
+    public final static String DO = "DO.vm";
+    public final static String dtoModel = "modelDTO.vm";
+    public final static String DTOConverter = "DTOConverter.vm";
+    public final static String ManageFacade = "ManageFacade.vm";
+    public final static String ManageFacadeImpl = "ManageFacadeImpl.vm";
+    public final static String QueryFacade = "QueryFacade.vm";
+    public final static String QueryFacadeImpl = "QueryFacadeImpl.vm";
+
     public static String build(TableConfig table, String templateName) {
         VelocityContext velocityContext = new VelocityContext();
         ByteArrayOutputStream temp = new ByteArrayOutputStream();

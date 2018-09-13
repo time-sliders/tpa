@@ -1,16 +1,17 @@
+package 
 import java.util.List;
 
 public interface ${table.beanName}Service {
 
     /**
-     * 批量查询
+     * 根据查询参数查询数据
      *
      * @param query 查询参数
      */
-    List<${table.beanName}> list(${table.beanName}Query query);
+    List<${table.beanName}> query(${table.beanName}Query query);
 
     /**
-     * 查询总量
+     * 根据查询参数查询数据总量
      *
      * @param query 查询参数
      */
@@ -31,7 +32,7 @@ public interface ${table.beanName}Service {
     int updateById(${table.beanName} updateParam);
 
     /**
-     * 保存数据
+     * 新增一条记录
      */
     int insert(${table.beanName} ${table.injectName});
 }

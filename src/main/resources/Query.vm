@@ -1,14 +1,15 @@
 package 
 import java.io.Serializable;
+import com.tongbanjie.commons.model.Query;
 #foreach($column in $table.columns)
 #if(!$column.javaType.startsWith("java.lang"))
 import ${column.javaType};
 #end
 #end
 
-public class ${table.beanName} implements Serializable {
+public class ${table.beanName}Query extends Query implements Serializable {
 
-private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
 #foreach($column in $table.columns)
 

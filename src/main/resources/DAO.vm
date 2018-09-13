@@ -1,17 +1,19 @@
-
+package 
 import java.util.List;
+
 
 public interface ${table.beanName}DAO {
 
+
     /**
-     * 批量查询
+     * 根据查询参数查询数据
      *
      * @param query 查询参数
      */
-    List< ${table.beanName}DO> list(${table.beanName}Query query);
+    List<${table.beanName}DO> query(${table.beanName}Query query);
 
     /**
-     * 查询总量
+     * 根据查询参数查询数据总量
      *
      * @param query 查询参数
      */
@@ -25,14 +27,14 @@ public interface ${table.beanName}DAO {
     ${table.beanName}DO findById(Long id);
 
     /**
-     * 根据id更新
+     * 根据id更新一调数据
      *
      * @param updateParam 更新参数
      */
     int updateById(${table.beanName}DO updateParam);
 
     /**
-     * 保存数据
+     * 新增一条记录
      */
     int insert(${table.beanName}DO ${table.injectName}DO);
 

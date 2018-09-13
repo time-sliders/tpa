@@ -6,9 +6,9 @@ import ${column.javaType};
 #end
 #end
 
-public class ${table.beanName} implements Serializable {
+public class ${table.beanName}DO implements Serializable{
 
-private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
 #foreach($column in $table.columns)
 

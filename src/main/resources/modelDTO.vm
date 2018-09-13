@@ -6,7 +6,7 @@ import ${column.javaType};
 #end
 #end
 
-public class ${table.beanName} implements Serializable {
+public class ${table.beanName}DTO implements Serializable {
 
 private static final long serialVersionUID = 1L;
 

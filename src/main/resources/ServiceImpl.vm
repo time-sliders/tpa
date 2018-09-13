@@ -1,3 +1,4 @@
+package 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -12,8 +13,8 @@ public class ${table.beanName}ServiceImpl implements ${table.beanName}Service {
     private ${table.beanName}DOConverter converter;
 
     @Override
-    public List<${table.beanName}> list(${table.beanName}Query query) {
-        return converter.asModelList(${table.injectName}DAO.list(query));
+    public List<${table.beanName}> query(${table.beanName}Query query) {
+        return converter.asModelList(${table.injectName}DAO.query(query));
     }
 
     @Override
@@ -33,11 +34,15 @@ public class ${table.beanName}ServiceImpl implements ${table.beanName}Service {
 
     @Override
     public int insert(${table.beanName} ${table.injectName}) {
-        ${table.beanName}DO dataObj = converter.toDto(${table.injectName});
-        int num = ${table.injectName}DAO.insert(dataObj));
+
+        ${table.beanName}DO ${table.injectName}DO = converter.toDto(${table.injectName});
+
+        int num = ${table.injectName}DAO.insert(${table.injectName}DO);
+
         if (num > 0) {
-            ${table.injectName}.setId(dataObj.getId());
+            ${table.injectName}.setId(${table.injectName}DO.getId());
         }
+
         return num;
     }
 

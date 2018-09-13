@@ -1,0 +1,60 @@
+package 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.util.Assert;
+
+@Service
+public class ${table.beanName}QueryFacadeImpl implements ${table.beanName}QueryFacade {
+	private static final Logger logger = LoggerFactory.getLogger(${table.beanName}QueryFacadeImpl.class);
+
+	@Autowired
+	private ${table.beanName}Service ${table.injectName}Service;
+
+    @Autowired
+    private ${table.beanName}DTOConverter converter;
+
+    @Override
+    public Result<${table.beanName}DTO> findById(Long id) {
+       try {
+			Assert.notNull(id, "编号不能为空");
+
+			${table.beanName}DTO ${table.injectName}DTO = converter.toDto(${table.injectName}Service.findById(id));
+			return Result.buildSucc(${table.injectName}DTO);
+		} catch (Exception ex) {
+			logger.warn("根据编号查询记录异常", ex);
+
+			return Result.buildFail(ResultCodeConstants.ERROR_CODE, ex.getMessage());
+		}
+    }
+
+    @Override
+    public Result<List<${table.beanName}DTO>> query(${table.beanName}Query query){
+       try {
+			Assert.notNull(query, "查询参数不能为空");
+
+			List<${table.beanName}DTO> ${table.injectName}DTOList = converter.asDtoList(${table.injectName}Service.query(query));
+			return Result.buildSucc(${table.injectName}DTOList);
+		} catch (Exception ex) {
+			logger.warn("根据参数查询记录列表异常", ex);
+
+			return Result.buildFail(ResultCodeConstants.ERROR_CODE, ex.getMessage());
+		}
+    }
+
+    @Override
+    public Result<Integer> count(${table.beanName}Query query) {
+         try {
+			Assert.notNull(query, "统计参数不能为空");
+
+			Integer count = ${table.injectName}Service.count(query);
+			return Result.buildSucc(count);
+		} catch (Exception ex) {
+			logger.warn("根据统计参数查询记录异常", ex);
+
+			return Result.buildFail(ResultCodeConstants.ERROR_CODE, ex.getMessage());
+		}
+    }
+}

@@ -1,3 +1,4 @@
+package 
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.Assert;
@@ -8,15 +9,15 @@ import java.util.List;
 @Repository
 public class ${table.beanName}DAOImpl extends SqlSessionDaoSupport implements ${table.beanName}DAO {
 
+
     @Override
-    public List<${table.beanName}DO> list(${table.beanName}Query query) {
+    public List<${table.beanName}DO> query(${table.beanName}Query query) {
 
         Assert.notNull(query);
 
         query.decorate();
 
-        //noinspection unchecked
-        return this.getSqlSession().selectList("${table.beanName}.QUERY", query);
+        return this.getSqlSession().selectList("${table.namespace}.QUERY", query);
     }
 
     @Override
@@ -24,7 +25,7 @@ public class ${table.beanName}DAOImpl extends SqlSessionDaoSupport implements ${
 
         Assert.notNull(query);
 
-        return (Integer) this.getSqlSession().selectOne("${table.beanName}.COUNT", query);
+        return this.getSqlSession().selectOne("${table.namespace}.COUNT", query);
     }
 
     @Override
@@ -32,7 +33,7 @@ public class ${table.beanName}DAOImpl extends SqlSessionDaoSupport implements ${
 
         Assert.notNull(id, "id不能为空");
 
-        return (${table.beanName}DO) this.getSqlSession().selectOne("${table.beanName}.FIND_BY_ID", id);
+        return this.getSqlSession().selectOne("${table.namespace}.FIND_BY_ID", id);
     }
 
     @Override
@@ -44,7 +45,7 @@ public class ${table.beanName}DAOImpl extends SqlSessionDaoSupport implements ${
         updateParam.setCreateTime(null);
         updateParam.setModifyTime(new Date());
 
-        return this.getSqlSession().update("${table.beanName}.UPDATE_BY_ID", updateParam);
+        return this.getSqlSession().update("${table.namespace}.UPDATE_BY_ID", updateParam);
     }
 
     @Override
@@ -55,7 +56,7 @@ public class ${table.beanName}DAOImpl extends SqlSessionDaoSupport implements ${
         ${table.injectName}DO.setCreateTime(new Date());
         ${table.injectName}DO.setModifyTime(null);
 
-        return this.getSqlSession().insert("${table.beanName}.INSERT", ${table.injectName}DO);
+        return this.getSqlSession().insert("${table.namespace}.INSERT", ${table.injectName}DO);
     }
 
     private void checkParamForInsert(${table.beanName}DO ${table.injectName}DO) {
