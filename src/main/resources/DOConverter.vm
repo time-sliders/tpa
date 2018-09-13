@@ -1,0 +1,21 @@
+
+import org.springframework.beans.BeanUtils;
+import org.springframework.stereotype.Component;
+
+@Component
+public class ${table.beanName}DOConverter extends AbstractObjectConverter<${table.beanName}, ${table.beanName}DO> {
+
+    @Override
+    protected ${table.beanName}DO onBuildDto(${table.beanName} model) {
+        ${table.beanName}DO domain = new ${table.beanName}DO();
+        BeanUtils.copyProperties(model, domain);
+        return domain;
+    }
+
+    @Override
+    protected ${table.beanName} onBuildModel(${table.beanName}DO domain) {
+        ${table.beanName} model = new ${table.beanName}();
+        BeanUtils.copyProperties(domain, model);
+        return model;
+    }
+}

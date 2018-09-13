@@ -1,0 +1,37 @@
+import java.util.List;
+
+public interface ${table.beanName}Service {
+
+    /**
+     * 批量查询
+     *
+     * @param query 查询参数
+     */
+    List<${table.beanName}> list(${table.beanName}Query query);
+
+    /**
+     * 查询总量
+     *
+     * @param query 查询参数
+     */
+    Integer count(${table.beanName}Query query);
+
+    /**
+     * 根据ID查询
+     *
+     * @param id 数据库ID
+     */
+    ${table.beanName} findById(Long id);
+
+    /**
+     * 根据id更新一调数据
+     *
+     * @param updateParam 更新参数
+     */
+    int updateById(${table.beanName} updateParam);
+
+    /**
+     * 保存数据
+     */
+    int insert(${table.beanName} ${table.injectName});
+}

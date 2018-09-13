@@ -1,0 +1,39 @@
+
+import java.util.List;
+
+public interface ${table.beanName}DAO {
+
+    /**
+     * 批量查询
+     *
+     * @param query 查询参数
+     */
+    List< ${table.beanName}DO> list(${table.beanName}Query query);
+
+    /**
+     * 查询总量
+     *
+     * @param query 查询参数
+     */
+    Integer count(${table.beanName}Query query);
+
+    /**
+     * 根据ID查询
+     *
+     * @param id 数据库ID
+     */
+    ${table.beanName}DO findById(Long id);
+
+    /**
+     * 根据id更新
+     *
+     * @param updateParam 更新参数
+     */
+    int updateById(${table.beanName}DO updateParam);
+
+    /**
+     * 保存数据
+     */
+    int insert(${table.beanName}DO ${table.injectName}DO);
+
+}
