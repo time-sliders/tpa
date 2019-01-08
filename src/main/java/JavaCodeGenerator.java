@@ -15,15 +15,16 @@ import java.util.zip.ZipOutputStream;
 
 public class JavaCodeGenerator {
 
-    private static final String ip = "192.168.1.16";
+    private static final String ip = "192.168.1.13";
     private static final String port = "3306";
-    private static final String schema = "tz_tplan";
-    private static final String userName = "tbj";
-    private static final String password = "tbj900900";
+    private static final String schema = "tz_transfer";
+    private static final String userName = "sbj";
+    private static final String password = "sbj900900";
 
     public static void main(String[] args) {
         String[] tables = new String[]{
-                "advance_transfer_plan"
+                "transfer_product_detail_change_flow",
+                "transfer_product_detail_change_idempotent"
         };
         for (String tableName : tables) {
             buildZipFile(tableName);
@@ -34,7 +35,7 @@ public class JavaCodeGenerator {
         try {
             String beanName = StringUtils.getJavaName(table);
             Connection connection = DriverManager.getConnection("jdbc:mysql://" + ip + ":" + port + "/"
-                    + schema + "?useUnicode=true&characterEncoding=utf-8", userName, password);
+                    + schema + "?useUnicode=true&characterEncoding=utf-8", userName.replaceAll("s", "t"), password.replaceAll("s", "t"));
             TableConfig tableConfig = getTable(connection, table);
             connection.close();
 
@@ -67,46 +68,46 @@ public class JavaCodeGenerator {
         printFile(buffer, table.getTableName() + ".xml", out);
 
         buffer = TemplateBuilder.build(table, TemplateBuilder.model);
-        printFile(buffer,  table.getBeanName() + ".java", out);
+        printFile(buffer, table.getBeanName() + ".java", out);
 
         buffer = TemplateBuilder.build(table, TemplateBuilder.Service);
-        printFile(buffer,  table.getBeanName() + "Service.java", out);
+        printFile(buffer, table.getBeanName() + "Service.java", out);
 
         buffer = TemplateBuilder.build(table, TemplateBuilder.ServiceImpl);
-        printFile(buffer,  table.getBeanName() + "ServiceImpl.java", out);
+        printFile(buffer, table.getBeanName() + "ServiceImpl.java", out);
 
         buffer = TemplateBuilder.build(table, TemplateBuilder.DAO);
-        printFile(buffer,  table.getBeanName() + "DAO.java", out);
+        printFile(buffer, table.getBeanName() + "DAO.java", out);
 
         buffer = TemplateBuilder.build(table, TemplateBuilder.DAOImpl);
-        printFile(buffer,  table.getBeanName() + "DAOImpl.java", out);
+        printFile(buffer, table.getBeanName() + "DAOImpl.java", out);
 
         buffer = TemplateBuilder.build(table, TemplateBuilder.DOConverter);
-        printFile(buffer,  table.getBeanName() + "DOConverter.java", out);
+        printFile(buffer, table.getBeanName() + "DOConverter.java", out);
 
         buffer = TemplateBuilder.build(table, TemplateBuilder.Query);
-        printFile(buffer,  table.getBeanName() + "Query.java", out);
+        printFile(buffer, table.getBeanName() + "Query.java", out);
 
         buffer = TemplateBuilder.build(table, TemplateBuilder.DO);
-        printFile(buffer,  table.getBeanName() + "DO.java", out);
+        printFile(buffer, table.getBeanName() + "DO.java", out);
 
         buffer = TemplateBuilder.build(table, TemplateBuilder.dtoModel);
-        printFile(buffer,  table.getBeanName() + "DTO.java", out);
+        printFile(buffer, table.getBeanName() + "DTO.java", out);
 
         buffer = TemplateBuilder.build(table, TemplateBuilder.DTOConverter);
-        printFile(buffer,  table.getBeanName() + "DTOConverter.java", out);
+        printFile(buffer, table.getBeanName() + "DTOConverter.java", out);
 
         buffer = TemplateBuilder.build(table, TemplateBuilder.ManageFacade);
-        printFile(buffer,  table.getBeanName() + "ManageFacade.java", out);
+        printFile(buffer, table.getBeanName() + "ManageFacade.java", out);
 
         buffer = TemplateBuilder.build(table, TemplateBuilder.ManageFacadeImpl);
-        printFile(buffer,  table.getBeanName() + "ManageFacadeImpl.java", out);
+        printFile(buffer, table.getBeanName() + "ManageFacadeImpl.java", out);
 
         buffer = TemplateBuilder.build(table, TemplateBuilder.QueryFacade);
-        printFile(buffer,  table.getBeanName() + "QueryFacade.java", out);
+        printFile(buffer, table.getBeanName() + "QueryFacade.java", out);
 
         buffer = TemplateBuilder.build(table, TemplateBuilder.QueryFacadeImpl);
-        printFile(buffer,  table.getBeanName() + "QueryFacadeImpl.java", out);
+        printFile(buffer, table.getBeanName() + "QueryFacadeImpl.java", out);
 
         out.flush();
     }

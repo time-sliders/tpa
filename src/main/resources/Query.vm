@@ -11,6 +11,11 @@ public class ${table.beanName}Query extends Query implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    /**
+     * 强制索引名称
+     */
+    private String forceIndexName;
+
 #foreach($column in $table.columns)
 
     /**

@@ -95,6 +95,9 @@
             <include refid="Base_Column_List"/>
         from
             ${table.tableName}
+        <if test="forceIndexName != null and forceIndexName != ''">
+            force index(${forceIndexName})
+        </if>
         <where>
             <trim prefix="" prefixOverrides="and" suffix="">
                 <include refid="_sql_where"/>
@@ -109,6 +112,9 @@
             count(1)
         from
             ${table.tableName}
+        <if test="forceIndexName != null and forceIndexName != ''">
+            force index(${forceIndexName})
+        </if>
         <where>
             <trim prefix="" prefixOverrides="and" suffix="">
                 <include refid="_sql_where"/>
