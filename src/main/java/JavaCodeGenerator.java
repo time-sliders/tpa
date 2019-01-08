@@ -97,12 +97,6 @@ public class JavaCodeGenerator {
         buffer = TemplateBuilder.build(table, TemplateBuilder.DTOConverter);
         printFile(buffer, table.getBeanName() + "DTOConverter.java", out);
 
-        buffer = TemplateBuilder.build(table, TemplateBuilder.ManageFacade);
-        printFile(buffer, table.getBeanName() + "ManageFacade.java", out);
-
-        buffer = TemplateBuilder.build(table, TemplateBuilder.ManageFacadeImpl);
-        printFile(buffer, table.getBeanName() + "ManageFacadeImpl.java", out);
-
         buffer = TemplateBuilder.build(table, TemplateBuilder.QueryFacade);
         printFile(buffer, table.getBeanName() + "QueryFacade.java", out);
 

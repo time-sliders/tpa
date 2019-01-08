@@ -1,4 +1,3 @@
-package 
 import java.io.Serializable;
 import com.tongbanjie.commons.model.Query;
 #foreach($column in $table.columns)

@@ -1,9 +1,6 @@
-package 
 import java.util.List;
 
-
 public interface ${table.beanName}DAO {
-
 
     /**
      * 根据查询参数查询数据

@@ -1,4 +1,3 @@
-package 
 import java.io.Serializable;
 #foreach($column in $table.columns)
 #if(!$column.javaType.startsWith("java.lang"))
