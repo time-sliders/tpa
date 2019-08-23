@@ -12,34 +12,40 @@ public class ${table.beanName}QueryFacadeImpl implements ${table.beanName}QueryF
 	@Autowired
 	private ${table.beanName}Service ${table.injectName}Service;
 
+#if(${config.needDTO})
     @Autowired
     private ${table.beanName}DTOConverter converter;
+#end
 
     @Override
-    public Result<${table.beanName}DTO> findById(Long id) {
+    public Result<#if(${config.needDTO})${table.beanName}DTO#else${table.beanName}#end> findById(Long id) {
        try {
 			Assert.notNull(id, "编号不能为空");
-
+	#if(${config.needDTO})
 			${table.beanName}DTO ${table.injectName}DTO = converter.toDto(${table.injectName}Service.findById(id));
 			return Result.buildSucc(${table.injectName}DTO);
+	#else
+		return Result.buildSucc(${table.injectName}Service.findById(id));
+	#end
 		} catch (Exception ex) {
 			logger.warn("根据编号查询记录异常", ex);
-
-			return Result.buildFail(ResultCodeConstants.ERROR_CODE, ex.getMessage());
+			return Result.buildFail(null, ex.getMessage());
 		}
     }
 
     @Override
-    public Result<List<${table.beanName}DTO>> query(${table.beanName}Query query){
+    public Result<List<#if(${config.needDTO})${table.beanName}DTO#else${table.beanName}#end>> query(${table.beanName}Query query){
        try {
 			Assert.notNull(query, "查询参数不能为空");
-
+	#if(${config.needDTO})
 			List<${table.beanName}DTO> ${table.injectName}DTOList = converter.asDtoList(${table.injectName}Service.query(query));
 			return Result.buildSucc(${table.injectName}DTOList);
+	#else
+		return Result.buildSucc(${table.injectName}Service.query(query));
+	#end
 		} catch (Exception ex) {
 			logger.warn("根据参数查询记录列表异常", ex);
-
-			return Result.buildFail(ResultCodeConstants.ERROR_CODE, ex.getMessage());
+			return Result.buildFail(null, ex.getMessage());
 		}
     }
 
@@ -47,13 +53,10 @@ public class ${table.beanName}QueryFacadeImpl implements ${table.beanName}QueryF
     public Result<Integer> count(${table.beanName}Query query) {
          try {
 			Assert.notNull(query, "统计参数不能为空");
-
-			Integer count = ${table.injectName}Service.count(query);
-			return Result.buildSucc(count);
+			return Result.buildSucc(${table.injectName}Service.count(query));
 		} catch (Exception ex) {
 			logger.warn("根据统计参数查询记录异常", ex);
-
-			return Result.buildFail(ResultCodeConstants.ERROR_CODE, ex.getMessage());
+			return Result.buildFail(null, ex.getMessage());
 		}
     }
 }

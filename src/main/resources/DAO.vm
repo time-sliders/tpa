@@ -7,7 +7,7 @@ public interface ${table.beanName}DAO {
      *
      * @param query 查询参数
      */
-    List<${table.beanName}DO> query(${table.beanName}Query query);
+    List<#if(${config.needDO})${table.beanName}DO#else${table.beanName}#end> query(${table.beanName}Query query);
 
     /**
      * 根据查询参数查询数据总量
@@ -21,18 +21,18 @@ public interface ${table.beanName}DAO {
      *
      * @param id 数据库ID
      */
-    ${table.beanName}DO findById(Long id);
+    #if(${config.needDO})${table.beanName}DO#else${table.beanName}#end findById(Long id);
 
     /**
      * 根据id更新一调数据
      *
      * @param updateParam 更新参数
      */
-    int updateById(${table.beanName}DO updateParam);
+    int updateById(#if(${config.needDO})${table.beanName}DO#else${table.beanName}#end updateParam);
 
     /**
      * 新增一条记录
      */
-    int insert(${table.beanName}DO ${table.injectName}DO);
+    int insert(#if(${config.needDO})${table.beanName}DO ${table.injectName}DO#else${table.beanName} ${table.injectName}#end);
 
 }

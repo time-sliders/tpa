@@ -7,14 +7,14 @@ public interface ${table.beanName}QueryFacade {
      *
      * @param id 数据库ID
      */
-    Result<${table.beanName}DTO> findById(Long id);
+    Result<#if(${config.needDTO})${table.beanName}DTO#else${table.beanName}#end> findById(Long id);
 
     /**
      * 根据查询参数查询数据
      *
      * @param query 查询参数
      */
-    Result<List<${table.beanName}DTO>> query(${table.beanName}Query query);
+    Result<List<#if(${config.needDTO})${table.beanName}DTO#else${table.beanName}#end>> query(${table.beanName}Query query);
 
     /**
      * 根据查询参数查询数据总量

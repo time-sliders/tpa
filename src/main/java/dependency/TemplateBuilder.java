@@ -25,12 +25,13 @@ public class TemplateBuilder {
     public final static String QueryFacade = "QueryFacade.vm";
     public final static String QueryFacadeImpl = "QueryFacadeImpl.vm";
 
-    public static String build(TableConfig table, String templateName) {
+    public static String build(TableConfig table, BuildConfig config, String templateName) {
         VelocityContext velocityContext = new VelocityContext();
         ByteArrayOutputStream temp = new ByteArrayOutputStream();
         OutputStreamWriter output = new OutputStreamWriter(temp);
         Template template = VelocityFactory.getInstances().getTemplate(templateName, output, velocityContext);
         velocityContext.put("table", table);
+        velocityContext.put("config", config);
         try {
             template.outPut();
         } catch (Exception e) {

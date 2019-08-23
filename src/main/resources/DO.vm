@@ -5,7 +5,6 @@ import ${column.javaType};
 #end
 
 public class ${table.beanName}DO {
-
 #foreach($column in $table.columns)
 
     /**
@@ -13,5 +12,4 @@ public class ${table.beanName}DO {
      */
     private ${column.SimpleJavaType} ${column.fieldName};
 #end
-
 }

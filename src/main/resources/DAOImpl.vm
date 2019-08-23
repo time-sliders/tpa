@@ -11,7 +11,7 @@ public class ${table.beanName}DAOImpl
     implements ${table.beanName}DAO {
 
     @Override
-    public List<${table.beanName}DO> query(${table.beanName}Query query) {
+    public List<#if(${config.needDO})${table.beanName}DO#else${table.beanName}#end> query(${table.beanName}Query query) {
 
         Assert.notNull(query);
 
@@ -29,7 +29,7 @@ public class ${table.beanName}DAOImpl
     }
 
     @Override
-    public ${table.beanName}DO findById(Long id) {
+    public #if(${config.needDO})${table.beanName}DO#else${table.beanName}#end findById(Long id) {
 
         Assert.notNull(id, "id不能为空");
 
@@ -37,7 +37,7 @@ public class ${table.beanName}DAOImpl
     }
 
     @Override
-    public int updateById(${table.beanName}DO updateParam) {
+    public int updateById(#if(${config.needDO})${table.beanName}DO#else${table.beanName}#end updateParam) {
 
         Assert.notNull(updateParam);
         Assert.notNull(updateParam.getId(), "id不能为空");
@@ -49,18 +49,18 @@ public class ${table.beanName}DAOImpl
     }
 
     @Override
-    public int insert(${table.beanName}DO ${table.injectName}DO) {
+    public int insert(#if(${config.needDO})${table.beanName}DO ${table.injectName}DO#else${table.beanName} ${table.injectName}#end) {
 
-        checkParamForInsert(${table.injectName}DO);
+        checkParamForInsert(#if(${config.needDO})${table.injectName}DO#else${table.injectName}#end);
 
-        ${table.injectName}DO.setCreateTime(new Date());
-        ${table.injectName}DO.setModifyTime(null);
+        #if(${config.needDO})${table.injectName}DO#else${table.injectName}#end.setCreateTime(new Date());
+        #if(${config.needDO})${table.injectName}DO#else${table.injectName}#end.setModifyTime(null);
 
-        return this.getSqlSession().insert("${table.namespace}.INSERT", ${table.injectName}DO);
+        return this.getSqlSession().insert("${table.namespace}.INSERT", #if(${config.needDO})${table.injectName}DO#else${table.injectName}#end);
     }
 
-    private void checkParamForInsert(${table.beanName}DO ${table.injectName}DO) {
-        Assert.notNull(${table.injectName}DO);
+    private void checkParamForInsert(#if(${config.needDO})${table.beanName}DO ${table.injectName}DO#else${table.beanName} ${table.injectName}#end) {
+        Assert.notNull(#if(${config.needDO})${table.injectName}DO#else${table.injectName}#end);
 
         //TODO check code
     }
