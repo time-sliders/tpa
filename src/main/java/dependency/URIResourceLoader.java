@@ -20,6 +20,7 @@ public class URIResourceLoader extends ClasspathResourceLoader {
      *
      * @param configuration
      */
+    @Override
     public void init(ExtendedProperties configuration) {
         if (log.isTraceEnabled()) {
             log.trace("ClasspathResourceLoader : initialization complete.");
@@ -35,6 +36,7 @@ public class URIResourceLoader extends ClasspathResourceLoader {
      * @throws ResourceNotFoundException if template not found
      *                                   in  classpath.
      */
+    @Override
     public InputStream getResourceStream(String name) throws ResourceNotFoundException {
         InputStream result = null;
 
@@ -69,6 +71,7 @@ public class URIResourceLoader extends ClasspathResourceLoader {
     /**
      * @see org.apache.velocity.runtime.resource.loader.ResourceLoader#isSourceModified(Resource)
      */
+    @Override
     public boolean isSourceModified(Resource resource) {
         return false;
     }
@@ -76,6 +79,7 @@ public class URIResourceLoader extends ClasspathResourceLoader {
     /**
      * @see org.apache.velocity.runtime.resource.loader.ResourceLoader#getLastModified(Resource)
      */
+    @Override
     public long getLastModified(Resource resource) {
         return 0;
     }

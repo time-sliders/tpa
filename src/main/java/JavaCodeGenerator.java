@@ -6,6 +6,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.sql.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.zip.CRC32;
@@ -13,22 +15,41 @@ import java.util.zip.CheckedOutputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+/**
+ * @author yongjian.zw
+ * @date 2020/01/01
+ */
 public class JavaCodeGenerator {
 
-    private static final String ip = "192.168.1.16";
-    private static final String port = "3306";
-    private static final String schema = "tz_transfer";
-    private static final String userName = "sbj";
-    private static final String password = "sbj900900";
-    private static final BuildConfig config
-            = new BuildConfig()
-            .needDO(false)
-            .needDTO(false)
-            .needFacade(true);
+    private static final String IP = "localhost";
+    private static final String PORT = "3306";
+    private static final String schema = "sp";
+    private static final String userName = "root";
+    private static final String password = "root";
+    private static BuildConfig config;
+
+    public static void initConfig() {
+        config = new BuildConfig();
+        config.needDO(true); // TODO
+        config.needFacade(false);
+        // 文件头
+        config.setFileHeader("" +
+                "/**\n" +
+                " * @author YongJian.zw\n" +
+                " * @version 1.0.0\n" + // TODO
+                " * @date " + (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())) + "\n" +
+                " * @since safe production platform V1.0\n" + // TODO
+                " */");
+    }
 
     public static void main(String[] args) {
+        initConfig();
         String[] tables = new String[]{
-                "transfer_apply",
+                "sp_endpoint_content",
+                "sp_employer_acquaintance",
+                "sp_employer_score_flow",
+                "sp_department_spec"
+
         };
         for (String tableName : tables) {
             buildZipFile(tableName);
@@ -38,14 +59,14 @@ public class JavaCodeGenerator {
     private static void buildZipFile(String table) {
         try {
             String beanName = StringUtils.getJavaName(table);
-            Connection connection = DriverManager.getConnection("jdbc:mysql://" + ip + ":" + port + "/"
-                    + schema + "?useUnicode=true&characterEncoding=utf-8", userName.replaceAll("s", "t"), password.replaceAll("s", "t"));
+            Connection connection = DriverManager.getConnection("jdbc:mysql://" + IP + ":" + PORT + "/"
+                    + schema + "?useUnicode=true&characterEncoding=utf-8", userName, password);
             TableConfig tableConfig = getTable(connection, table);
             connection.close();
             tableConfig.setBeanName(beanName);
             tableConfig.setInjectName(StringUtils.getFistLowName(beanName));
 
-            File file = new File("/Users/zhangwei/Downloads/" + beanName + ".zip");
+            File file = new File("/Users/yongjian/Downloads/" + beanName + ".zip");
             if (file.exists() && !file.delete()) {
                 throw new RuntimeException("delete fail");
             }
@@ -86,14 +107,7 @@ public class JavaCodeGenerator {
             buffer = TemplateBuilder.build(table, config, TemplateBuilder.DO);
             printFile(buffer, table.getBeanName() + "DO.java", out);
             buffer = TemplateBuilder.build(table, config, TemplateBuilder.DOConverter);
-            printFile(buffer, table.getBeanName() + "DOConverter.java", out);
-        }
-
-        if (config.isNeedDTO()) {
-            buffer = TemplateBuilder.build(table, config, TemplateBuilder.dtoModel);
-            printFile(buffer, table.getBeanName() + "DTO.java", out);
-            buffer = TemplateBuilder.build(table, config, TemplateBuilder.DTOConverter);
-            printFile(buffer, table.getBeanName() + "DTOConverter.java", out);
+            printFile(buffer, table.getBeanName() + "Converter.java", out);
         }
 
         if (config.isNeedFacade()) {
@@ -124,12 +138,10 @@ public class JavaCodeGenerator {
         tableConfig.setTableName(table);
         tableConfig.setNamespace(beanTypeName);
         tableConfig.setColumns(columns);
-        if (columns != null) {
-            for (ColumnConfig columnConfig : columns) {
-                if (columnConfig.isPrimaryKey()) {
-                    tableConfig.setPrimaryKey(columnConfig);
-                    break;
-                }
+        for (ColumnConfig columnConfig : columns) {
+            if (columnConfig.isPrimaryKey()) {
+                tableConfig.setPrimaryKey(columnConfig);
+                break;
             }
         }
         return tableConfig;

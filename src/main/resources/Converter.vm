@@ -1,8 +1,10 @@
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 
+${config.fileHeader}
 @Component
-public class ${table.beanName}DOConverter extends AbstractObjectConverter<${table.beanName}, ${table.beanName}DO> {
+public class ${table.beanName}Converter
+        extends AbstractObjectConverter<${table.beanName}, ${table.beanName}DO> {
 
     @Override
     protected ${table.beanName}DO onBuildDto(${table.beanName} model) {

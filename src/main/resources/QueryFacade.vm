@@ -1,25 +1,29 @@
 import java.util.List;
 
+${config.fileHeader}
 public interface ${table.beanName}QueryFacade {
 
    /**
      * 根据ID查询
      *
      * @param id 数据库ID
+     * @return 查询结果
      */
-    Result<#if(${config.needDTO})${table.beanName}DTO#else${table.beanName}#end> findById(Long id);
+    Result<${table.beanName}> findById(Long id);
 
     /**
      * 根据查询参数查询数据
      *
      * @param query 查询参数
+     * @return 查询结果
      */
-    Result<List<#if(${config.needDTO})${table.beanName}DTO#else${table.beanName}#end>> query(${table.beanName}Query query);
+    Result<List<${table.beanName}>> query(${table.beanName}Query query);
 
     /**
      * 根据查询参数查询数据总量
      *
      * @param query 查询参数
+     * @return 数据总量
      */
     Result<Integer> count(${table.beanName}Query query);
 

@@ -18,6 +18,7 @@ public class VTLIndentationGlobber extends FilterInputStream {
         super(is);
     }
 
+    @Override
     public int read() throws IOException {
         while (true) {
             switch (state) {
@@ -96,22 +97,27 @@ public class VTLIndentationGlobber extends FilterInputStream {
         }
     }
 
+    @Override
     public int read(byte[] b, int off, int len) throws IOException {
         int i;
         int ok = 0;
         while (len-- > 0) {
             i = read();
-            if (i == -1) return (ok == 0) ? -1 : ok;
+            if (i == -1) {
+                return (ok == 0) ? -1 : ok;
+            }
             b[off++] = (byte) i;
             ok++;
         }
         return ok;
     }
 
+    @Override
     public int read(byte[] b) throws IOException {
         return read(b, 0, b.length);
     }
 
+    @Override
     public boolean markSupported() {
         return false;
     }

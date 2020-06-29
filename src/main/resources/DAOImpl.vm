@@ -5,6 +5,7 @@ import org.springframework.util.Assert;
 import java.util.Date;
 import java.util.List;
 
+${config.fileHeader}
 @Repository
 public class ${table.beanName}DAOImpl
     extends SqlSessionDaoSupport
@@ -13,7 +14,7 @@ public class ${table.beanName}DAOImpl
     @Override
     public List<#if(${config.needDO})${table.beanName}DO#else${table.beanName}#end> query(${table.beanName}Query query) {
 
-        Assert.notNull(query);
+        Assert.notNull(query, "查询参数不能为空");
 
         query.decorate();
 
@@ -23,7 +24,7 @@ public class ${table.beanName}DAOImpl
     @Override
     public Integer count(${table.beanName}Query query) {
 
-        Assert.notNull(query);
+        Assert.notNull(query, "查询参数不能为空");
 
         return this.getSqlSession().selectOne("${table.namespace}.COUNT", query);
     }
@@ -39,11 +40,11 @@ public class ${table.beanName}DAOImpl
     @Override
     public int updateById(#if(${config.needDO})${table.beanName}DO#else${table.beanName}#end updateParam) {
 
-        Assert.notNull(updateParam);
+        Assert.notNull(updateParam, "更新参数不能为空");
         Assert.notNull(updateParam.getId(), "id不能为空");
 
-        updateParam.setCreateTime(null);
-        updateParam.setModifyTime(new Date());
+        updateParam.setGmtCreate(null);
+        updateParam.setGmtModified(new Date());
 
         return this.getSqlSession().update("${table.namespace}.UPDATE_BY_ID", updateParam);
     }
@@ -53,14 +54,14 @@ public class ${table.beanName}DAOImpl
 
         checkParamForInsert(#if(${config.needDO})${table.injectName}DO#else${table.injectName}#end);
 
-        #if(${config.needDO})${table.injectName}DO#else${table.injectName}#end.setCreateTime(new Date());
-        #if(${config.needDO})${table.injectName}DO#else${table.injectName}#end.setModifyTime(null);
+        #if(${config.needDO})${table.injectName}DO#else${table.injectName}#end.setGmtCreate(new Date());
+        #if(${config.needDO})${table.injectName}DO#else${table.injectName}#end.setGmtModified(null);
 
         return this.getSqlSession().insert("${table.namespace}.INSERT", #if(${config.needDO})${table.injectName}DO#else${table.injectName}#end);
     }
 
     private void checkParamForInsert(#if(${config.needDO})${table.beanName}DO ${table.injectName}DO#else${table.beanName} ${table.injectName}#end) {
-        Assert.notNull(#if(${config.needDO})${table.injectName}DO#else${table.injectName}#end);
+        Assert.notNull(#if(${config.needDO})${table.injectName}DO#else${table.injectName}#end, "参数不能为空");
 
         //TODO check code
     }

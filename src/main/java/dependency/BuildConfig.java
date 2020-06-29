@@ -14,31 +14,22 @@ public class BuildConfig {
     private boolean needDO = false;
 
     /**
-     * 是否需要 DTO 数据传输层模型
-     * 如果为 true 会自动生成 TableDTO TableDTOConverter 以及在 Facade 层做 Model 到 DTO 的转换代码
-     * 如果为 false 则直接将 Model 作为 DTO 使用，代码会更轻便
-     */
-    private boolean needDTO = false;
-
-    /**
      * 是否需要 Facade 层代码
      * 如果为 false 则不会生成 TableFacade TableFacadeImpl
      */
     private boolean needFacade = false;
 
-    public BuildConfig needDTO(boolean needDTO) {
-        this.needDTO = needDTO;
-        return this;
-    }
+    /**
+     * 文件头
+     */
+    private String fileHeader;
 
-    public BuildConfig needDO(boolean needDO) {
+    public void needDO(boolean needDO) {
         this.needDO = needDO;
-        return this;
     }
 
-    public BuildConfig needFacade(boolean needFacade) {
+    public void needFacade(boolean needFacade) {
         this.needFacade = needFacade;
-        return this;
     }
 
     public boolean isNeedDO() {
@@ -49,19 +40,19 @@ public class BuildConfig {
         this.needDO = needDO;
     }
 
-    public boolean isNeedDTO() {
-        return needDTO;
-    }
-
-    public void setNeedDTO(boolean needDTO) {
-        this.needDTO = needDTO;
-    }
-
     public boolean isNeedFacade() {
         return needFacade;
     }
 
     public void setNeedFacade(boolean needFacade) {
         this.needFacade = needFacade;
+    }
+
+    public String getFileHeader() {
+        return fileHeader;
+    }
+
+    public void setFileHeader(String fileHeader) {
+        this.fileHeader = fileHeader;
     }
 }

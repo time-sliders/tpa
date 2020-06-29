@@ -14,7 +14,7 @@ public class TemplateBuilder {
     public final static String DAOImpl = "DAOImpl.vm";
     public final static String Service = "Service.vm";
     public final static String ServiceImpl = "ServiceImpl.vm";
-    public final static String DOConverter = "DOConverter.vm";
+    public final static String DOConverter = "Converter.vm";
 
     public final static String Query = "Query.vm";
     public final static String DO = "DO.vm";

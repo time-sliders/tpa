@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 
+${config.fileHeader}
 @Service
 public class ${table.beanName}QueryFacadeImpl implements ${table.beanName}QueryFacade {
 	private static final Logger logger = LoggerFactory.getLogger(${table.beanName}QueryFacadeImpl.class);
@@ -12,21 +13,11 @@ public class ${table.beanName}QueryFacadeImpl implements ${table.beanName}QueryF
 	@Autowired
 	private ${table.beanName}Service ${table.injectName}Service;
 
-#if(${config.needDTO})
-    @Autowired
-    private ${table.beanName}DTOConverter converter;
-#end
-
     @Override
-    public Result<#if(${config.needDTO})${table.beanName}DTO#else${table.beanName}#end> findById(Long id) {
+    public Result<${table.beanName}> findById(Long id) {
        try {
 			Assert.notNull(id, "编号不能为空");
-	#if(${config.needDTO})
-			${table.beanName}DTO ${table.injectName}DTO = converter.toDto(${table.injectName}Service.findById(id));
-			return Result.buildSucc(${table.injectName}DTO);
-	#else
-		return Result.buildSucc(${table.injectName}Service.findById(id));
-	#end
+			return Result.buildSucc(${table.injectName}Service.findById(id));
 		} catch (Exception ex) {
 			logger.warn("根据编号查询记录异常", ex);
 			return Result.buildFail(null, ex.getMessage());
@@ -34,15 +25,10 @@ public class ${table.beanName}QueryFacadeImpl implements ${table.beanName}QueryF
     }
 
     @Override
-    public Result<List<#if(${config.needDTO})${table.beanName}DTO#else${table.beanName}#end>> query(${table.beanName}Query query){
+    public Result<List<${table.beanName}>> query(${table.beanName}Query query){
        try {
 			Assert.notNull(query, "查询参数不能为空");
-	#if(${config.needDTO})
-			List<${table.beanName}DTO> ${table.injectName}DTOList = converter.asDtoList(${table.injectName}Service.query(query));
-			return Result.buildSucc(${table.injectName}DTOList);
-	#else
-		return Result.buildSucc(${table.injectName}Service.query(query));
-	#end
+			return Result.buildSucc(${table.injectName}Service.query(query));
 		} catch (Exception ex) {
 			logger.warn("根据参数查询记录列表异常", ex);
 			return Result.buildFail(null, ex.getMessage());

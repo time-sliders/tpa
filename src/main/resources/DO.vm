@@ -4,6 +4,7 @@ import ${column.javaType};
 #end
 #end
 
+${config.fileHeader}
 public class ${table.beanName}DO {
 #foreach($column in $table.columns)
 

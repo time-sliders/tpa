@@ -2,6 +2,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
+${config.fileHeader}
 @Service
 public class ${table.beanName}ServiceImpl implements ${table.beanName}Service {
 
@@ -10,7 +11,7 @@ public class ${table.beanName}ServiceImpl implements ${table.beanName}Service {
 
     #if(${config.needDO})
     @Autowired
-    private ${table.beanName}DOConverter converter;
+    private ${table.beanName}Converter converter;
     #end
 
     @Override
