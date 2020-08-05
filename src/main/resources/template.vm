@@ -29,6 +29,10 @@
             id = #{id}
     </select>
 
+    <update id="DELETE_BY_ID" parameterType="java.lang.Long">
+        delete from ${table.tableName} where  id = #{id}
+    </update>
+
 
     <sql id="_sql_where">
     #foreach($column in $table.columns)

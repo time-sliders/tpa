@@ -45,11 +45,8 @@ public class JavaCodeGenerator {
     public static void main(String[] args) {
         initConfig();
         String[] tables = new String[]{
-                "sp_endpoint_content",
-                "sp_employer_acquaintance",
-                "sp_employer_score_flow",
-                "sp_department_spec"
-
+                "hitch",
+                "hitch_action"
         };
         for (String tableName : tables) {
             buildZipFile(tableName);

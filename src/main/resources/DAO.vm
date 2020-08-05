@@ -42,4 +42,12 @@ public interface ${table.beanName}DAO {
      */
     int insert(#if(${config.needDO})${table.beanName}DO ${table.injectName}DO#else${table.beanName} ${table.injectName}#end);
 
+    /**
+     * 根据 id 删除数据
+     *
+     * @param id 数据库 id
+     * @return true if success
+     */
+    boolean deleteById(Long id);
+
 }
