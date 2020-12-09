@@ -27,6 +27,7 @@ public interface ${table.beanName}DAO {
      */
 #if(${config.needDO})   ${table.beanName}DO#else    ${table.beanName}#end findById(Long id);
 
+
     /**
      * 根据id更新一调数据
      *

@@ -20,6 +20,11 @@ public class BuildConfig {
     private boolean needFacade = false;
 
     /**
+     * 是否需要 Service 层代码
+     */
+    private boolean needService = true;
+
+    /**
      * 文件头
      */
     private String fileHeader;
@@ -54,5 +59,13 @@ public class BuildConfig {
 
     public void setFileHeader(String fileHeader) {
         this.fileHeader = fileHeader;
+    }
+
+    public boolean isNeedService() {
+        return needService;
+    }
+
+    public void setNeedService(boolean needService) {
+        this.needService = needService;
     }
 }

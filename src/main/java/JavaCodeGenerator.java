@@ -30,7 +30,8 @@ public class JavaCodeGenerator {
 
     public static void initConfig() {
         config = new BuildConfig();
-        config.needDO(true); // TODO
+        config.needDO(false); // TODO
+        config.setNeedService(true);// TODO
         config.needFacade(false);
         // 文件头
         config.setFileHeader("" +
@@ -38,15 +39,14 @@ public class JavaCodeGenerator {
                 " * @author YongJian.zw\n" +
                 " * @version 1.0.0\n" + // TODO
                 " * @date " + (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())) + "\n" +
-                " * @since safe production platform V1.0\n" + // TODO
+                " * @since SPEC (Risk Model) V1.1\n" + // TODO
                 " */");
     }
 
     public static void main(String[] args) {
         initConfig();
         String[] tables = new String[]{
-                "hitch",
-                "hitch_action"
+                "risk_main","risk_change_record"
         };
         for (String tableName : tables) {
             buildZipFile(tableName);
@@ -89,16 +89,19 @@ public class JavaCodeGenerator {
         printFile(buffer, table.getTableName() + ".xml", out);
         buffer = TemplateBuilder.build(table, config, TemplateBuilder.model);
         printFile(buffer, table.getBeanName() + ".java", out);
-        buffer = TemplateBuilder.build(table, config, TemplateBuilder.Service);
-        printFile(buffer, table.getBeanName() + "Service.java", out);
-        buffer = TemplateBuilder.build(table, config, TemplateBuilder.ServiceImpl);
-        printFile(buffer, table.getBeanName() + "ServiceImpl.java", out);
         buffer = TemplateBuilder.build(table, config, TemplateBuilder.DAO);
         printFile(buffer, table.getBeanName() + "DAO.java", out);
         buffer = TemplateBuilder.build(table, config, TemplateBuilder.DAOImpl);
         printFile(buffer, table.getBeanName() + "DAOImpl.java", out);
         buffer = TemplateBuilder.build(table, config, TemplateBuilder.Query);
         printFile(buffer, table.getBeanName() + "Query.java", out);
+
+        if(config.isNeedService()){
+            buffer = TemplateBuilder.build(table, config, TemplateBuilder.Service);
+            printFile(buffer, table.getBeanName() + "Service.java", out);
+            buffer = TemplateBuilder.build(table, config, TemplateBuilder.ServiceImpl);
+            printFile(buffer, table.getBeanName() + "ServiceImpl.java", out);
+        }
 
         if (config.isNeedDO()) {
             buffer = TemplateBuilder.build(table, config, TemplateBuilder.DO);
