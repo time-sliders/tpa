@@ -44,6 +44,12 @@ public interface ${table.beanName}DAO {
     int insert(#if(${config.needDO})${table.beanName}DO ${table.injectName}DO#else${table.beanName} ${table.injectName}#end);
 
     /**
+     * 批量新增记录
+     * @return true if insert success of data is empty
+     */
+    boolean batchInsert(List<#if(${config.needDO})${table.beanName}DO#else${table.beanName}#end> list);
+
+    /**
      * 根据 id 删除数据
      *
      * @param id 数据库 id

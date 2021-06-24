@@ -59,6 +59,14 @@
         )
     </insert>
 
+    <insert id="BATCH_INSERT" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="${table.primaryKey.fieldName}">
+        INSERT INTO ${table.tableName} (<include refid="Base_Column_List" />)
+        VALUES
+        <foreach collection ="list" item="item" index="index" separator=",">
+            (#foreach($column in $table.columns)#set($value="#{item."+$column.fieldName+"}")${value}#if( $foreach.hasNext ),#end#end)
+        </foreach>
+    </insert>
+
     <update id="UPDATE_BY_ID" parameterType="${table.beanName}">
         update
             ${table.tableName}

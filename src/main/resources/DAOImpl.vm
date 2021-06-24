@@ -60,6 +60,24 @@ public class ${table.beanName}DAOImpl
         return this.getSqlSession().insert("${table.namespace}.INSERT", #if(${config.needDO})${table.injectName}DO#else${table.injectName}#end);
     }
 
+    /**
+    * 批量新增记录
+    * @return > 0 if success
+    */
+    @Override
+    public boolean batchInsert(List<#if(${config.needDO})${table.beanName}DO#else${table.beanName}#end> list) {
+        if (CollectionUtils.isEmpty(list)) {
+            return true;
+        }
+        Date now = new Date();
+        for (#if(${config.needDO})${table.beanName}DO#else${table.beanName}#end i : list) {
+            checkParamForInsert(i);
+            i.setGmtCreate(now);
+            i.setGmtModified(now);
+        }
+        return this.getSqlSession().insert("${table.namespace}.BATCH_INSERT", list) > 0;
+    }
+
     @Override
     public boolean deleteById(Long id) {
         Assert.notNull(id, "id不能为空");

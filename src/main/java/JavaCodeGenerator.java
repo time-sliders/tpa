@@ -36,17 +36,16 @@ public class JavaCodeGenerator {
         // 文件头
         config.setFileHeader("" +
                 "/**\n" +
-                " * @author YongJian.zw\n" +
+                " * @author YongJian.zw(249171)\n" +
                 " * @version 1.0.0\n" + // TODO
-                " * @date " + (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())) + "\n" +
-                " * @since SPEC (Risk Model) V1.1\n" + // TODO
+                " * @since " + (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())) + "\n" +
                 " */");
     }
 
     public static void main(String[] args) {
         initConfig();
         String[] tables = new String[]{
-                "risk_main","risk_change_record"
+                "change_expired"
         };
         for (String tableName : tables) {
             buildZipFile(tableName);
