@@ -35,6 +35,9 @@
 
 
     <sql id="_sql_where">
+        <if test="gtId != null">
+            and id &gt; #{gtId}
+        </if>
     #foreach($column in $table.columns)
         #if($column.javaType == 'java.lang.String')
             #set($test= ${column.fieldName}+" != null and "+${column.fieldName}+" != '' ")
