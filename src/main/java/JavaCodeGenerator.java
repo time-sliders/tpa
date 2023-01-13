@@ -23,21 +23,20 @@ public class JavaCodeGenerator {
 
     private static final String IP = "localhost";
     private static final String PORT = "3306";
-    private static final String schema = "sp";
+    private static final String schema = "arch";
     private static final String userName = "root";
     private static final String password = "root";
     private static BuildConfig config;
 
     public static void initConfig() {
         config = new BuildConfig();
-        config.needDO(false); // TODO
-        config.setNeedService(true);// TODO
+        config.needDO(true);
+        config.setNeedService(false);
         config.needFacade(false);
         // 文件头
         config.setFileHeader("" +
                 "/**\n" +
-                " * @author YongJian.zw(249171)\n" +
-                " * @version 1.0.0\n" + // TODO
+                " * @author YongJian(249171)" + "\n" +
                 " * @since " + (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())) + "\n" +
                 " */");
     }
@@ -45,7 +44,7 @@ public class JavaCodeGenerator {
     public static void main(String[] args) {
         initConfig();
         String[] tables = new String[]{
-                "change_expired"
+                "app_extend",
         };
         for (String tableName : tables) {
             buildZipFile(tableName);
@@ -84,37 +83,24 @@ public class JavaCodeGenerator {
 
     private static void printMapper(TableConfig table, ZipOutputStream out) throws IOException {
 
-        String buffer = TemplateBuilder.build(table, config, TemplateBuilder.MAPPER);
+        String buffer = TemplateBuilderV2.build(table, config, TemplateBuilderV2.MAPPER);
         printFile(buffer, table.getTableName() + ".xml", out);
-        buffer = TemplateBuilder.build(table, config, TemplateBuilder.model);
+        buffer = TemplateBuilderV2.build(table, config, TemplateBuilderV2.model);
         printFile(buffer, table.getBeanName() + ".java", out);
-        buffer = TemplateBuilder.build(table, config, TemplateBuilder.DAO);
+        buffer = TemplateBuilderV2.build(table, config, TemplateBuilderV2.DAO);
         printFile(buffer, table.getBeanName() + "DAO.java", out);
-        buffer = TemplateBuilder.build(table, config, TemplateBuilder.DAOImpl);
+        buffer = TemplateBuilderV2.build(table, config, TemplateBuilderV2.DAOImpl);
         printFile(buffer, table.getBeanName() + "DAOImpl.java", out);
-        buffer = TemplateBuilder.build(table, config, TemplateBuilder.Query);
-        printFile(buffer, table.getBeanName() + "Query.java", out);
 
-        if(config.isNeedService()){
-            buffer = TemplateBuilder.build(table, config, TemplateBuilder.Service);
-            printFile(buffer, table.getBeanName() + "Service.java", out);
-            buffer = TemplateBuilder.build(table, config, TemplateBuilder.ServiceImpl);
-            printFile(buffer, table.getBeanName() + "ServiceImpl.java", out);
-        }
+        buffer = TemplateBuilderV2.build(table, config, TemplateBuilderV2.DO);
+        printFile(buffer, table.getBeanName() + "DO.java", out);
+        buffer = TemplateBuilderV2.build(table, config, TemplateBuilderV2.DOConverter);
+        printFile(buffer, table.getBeanName() + "Converter.java", out);
 
-        if (config.isNeedDO()) {
-            buffer = TemplateBuilder.build(table, config, TemplateBuilder.DO);
-            printFile(buffer, table.getBeanName() + "DO.java", out);
-            buffer = TemplateBuilder.build(table, config, TemplateBuilder.DOConverter);
-            printFile(buffer, table.getBeanName() + "Converter.java", out);
-        }
-
-        if (config.isNeedFacade()) {
-            buffer = TemplateBuilder.build(table, config, TemplateBuilder.QueryFacade);
-            printFile(buffer, table.getBeanName() + "QueryFacade.java", out);
-            buffer = TemplateBuilder.build(table, config, TemplateBuilder.QueryFacadeImpl);
-            printFile(buffer, table.getBeanName() + "QueryFacadeImpl.java", out);
-        }
+        buffer = TemplateBuilderV2.build(table, config, TemplateBuilderV2.Repository);
+        printFile(buffer, table.getBeanName() + "Repository.java", out);
+        buffer = TemplateBuilderV2.build(table, config, TemplateBuilderV2.RepositoryImpl);
+        printFile(buffer, table.getBeanName() + "RepositoryImpl.java", out);
 
         out.flush();
     }

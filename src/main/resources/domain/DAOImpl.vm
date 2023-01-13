@@ -1,0 +1,72 @@
+import org.springframework.stereotype.Repository;
+import org.springframework.util.Assert;
+import org.apache.commons.collections.CollectionUtils;
+import org.mybatis.spring.support.SqlSessionDaoSupport;
+
+import java.util.Date;
+import java.util.List;
+
+${config.fileHeader}
+@Repository
+public class ${table.beanName}DAOImpl
+    extends SqlSessionDaoSupport
+    implements ${table.beanName}DAO {
+
+    @Override
+    public ${table.beanName}DO findById(Long id) {
+
+        Assert.notNull(id, "id不能为空");
+
+        return this.getSqlSession().selectOne("${table.namespace}.FIND_BY_ID", id);
+    }
+
+    @Override
+    public int updateById(${table.beanName}DO updateParam) {
+
+        Assert.notNull(updateParam, "更新参数不能为空");
+        Assert.notNull(updateParam.getId(), "id不能为空");
+
+        updateParam.setGmtCreate(null);
+        updateParam.setGmtModified(new Date());
+
+        return this.getSqlSession().update("${table.namespace}.UPDATE_BY_ID", updateParam);
+    }
+
+    @Override
+    public int insert(${table.beanName}DO ${table.injectName}DO) {
+
+        checkParamForInsert(${table.injectName}DO);
+
+        ${table.injectName}DO.setGmtCreate(new Date());
+        ${table.injectName}DO.setGmtModified(new Date());
+
+        return this.getSqlSession().insert("${table.namespace}.INSERT", ${table.injectName}DO);
+    }
+
+    @Override
+    public boolean batchInsert(List<${table.beanName}DO> list) {
+        if (CollectionUtils.isEmpty(list)) {
+            return true;
+        }
+        Date now = new Date();
+        for (${table.beanName}DO i : list) {
+            checkParamForInsert(i);
+            i.setGmtCreate(now);
+            i.setGmtModified(now);
+        }
+        return this.getSqlSession().insert("${table.namespace}.BATCH_INSERT", list) > 0;
+    }
+
+    @Override
+    public boolean deleteById(Long id) {
+        Assert.notNull(id, "id不能为空");
+        return this.getSqlSession().delete("${table.namespace}.DELETE_BY_ID", id) > 0;
+    }
+
+    private void checkParamForInsert(${table.beanName}DO ${table.injectName}DO) {
+        Assert.notNull(${table.injectName}DO, "参数不能为空");
+        #foreach($column in $table.columns)
+        Assert.notNull(${table.injectName}DO.get${column.beanName}(), "参数「${column.comment}」不能为空");
+        #end
+    }
+}

@@ -4,7 +4,10 @@ import ${column.javaType};
 #end
 #end
 
+import lombok.Data;
+
 ${config.fileHeader}
+@Data
 public class ${table.beanName}DO {
 #foreach($column in $table.columns)
 

@@ -1,0 +1,79 @@
+#foreach($column in $table.columns)
+#if(!$column.javaType.startsWith("java.lang"))
+import ${column.javaType};
+#end
+#end
+
+${config.fileHeader}
+public class ${table.beanName} {
+
+    ////////////////////////////////////////////////////////////
+    //  Attributes
+    ////////////////////////////////////////////////////////////
+#foreach($column in $table.columns)
+
+    /**
+     * ${column.comment}
+     */
+    private ${column.SimpleJavaType} ${column.fieldName};
+#end
+
+    ////////////////////////////////////////////////////////////
+    //  Builder & Constructor
+    ////////////////////////////////////////////////////////////
+
+    /**
+     * 构造器私有化
+     */
+    private ${table.beanName}() {
+    }
+
+    public static ${table.beanName}Builder builder() {
+        return new ${table.beanName}Builder();
+    }
+
+    public static class ${table.beanName}Builder {
+        private final ${table.beanName} instance;
+
+        public ${table.beanName}Builder() {
+            this.instance = new ${table.beanName}();
+        }
+
+        #foreach($column in $table.columns)
+        public ${table.beanName}Builder ${column.fieldName}(${column.SimpleJavaType} ${column.fieldName}) {
+            this.instance.${column.fieldName} = ${column.fieldName};
+            return this;
+        }
+        #end
+
+        public ${table.beanName} build() {
+            // TODO check instance
+            if (
+            #foreach($column in $table.columns)
+            || this.instance.${column.fieldName} == null
+            #end
+            ) {
+            throw new NullPointerException();
+            }
+            return instance;
+        }
+    }
+
+    ////////////////////////////////////////////////////////////
+    //  Behavior
+    ////////////////////////////////////////////////////////////
+
+
+
+    ////////////////////////////////////////////////////////////
+    //  Getter (alt/cmd + N)
+    ////////////////////////////////////////////////////////////
+
+
+
+    ////////////////////////////////////////////////////////////
+    //  Default Object Method
+    ////////////////////////////////////////////////////////////
+
+
+}

@@ -8,7 +8,17 @@ public class ColumnConfig {
 
     private String columnType;
 
+    /**
+     * 字段属性名称
+     * gmtModified
+     */
     private String fieldName;
+
+    /**
+     *
+     * GmtCreate
+     */
+    private String beanName;
 
     private String javaType;
 
@@ -20,11 +30,13 @@ public class ColumnConfig {
         this.isPrimaryKey = isPrimaryKey;
         this.columnName = columnName;
         this.fieldName = fieldName;
+        this.beanName = StringUtils.getJavaName(columnName);
     }
 
     public ColumnConfig(String columnName, String fieldName) {
         this.columnName = columnName;
         this.fieldName = fieldName;
+        this.beanName = StringUtils.getJavaName(columnName);
     }
 
     public ColumnConfig() {
@@ -69,6 +81,14 @@ public class ColumnConfig {
 
     public void setSimpleJavaType(String simpleJavaType) {
         SimpleJavaType = simpleJavaType;
+    }
+
+    public String getBeanName() {
+        return beanName;
+    }
+
+    public void setBeanName(String beanName) {
+        this.beanName = beanName;
     }
 
     public String getColumnType() {

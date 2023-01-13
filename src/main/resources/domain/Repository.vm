@@ -1,0 +1,19 @@
+${config.fileHeader}
+public interface ${table.beanName}Repository {
+
+    /**
+     * 保存数据
+     */
+    boolean save(${table.beanName} ${table.injectName});
+
+    /**
+     * 查询
+     */
+    ${table.beanName} find(Long id);
+
+    /**
+     * 删除数据
+     */
+    boolean remove(Long id);
+
+}

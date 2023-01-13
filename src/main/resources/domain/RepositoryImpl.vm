@@ -1,0 +1,65 @@
+import javax.annotation.Resource;
+import org.springframework.stereotype.Repository;
+
+${config.fileHeader}
+@Repository
+public class ${table.beanName}RepositoryImpl implements ${table.beanName}Repository {
+
+    @Resource
+    private ${table.beanName}DAO ${table.injectName}DAO;
+
+    @Resource
+    private ${table.beanName}Converter ${table.injectName}Converter;
+
+    @Resource
+    private CacheService cacheService;
+
+    @Override
+    public boolean save(${table.beanName} ${table.injectName}) {
+        ${table.beanName}DO ${table.injectName}DO = ${table.injectName}Converter.toDto(${table.injectName});
+        if (${table.injectName}.getId() != null) {
+            int num = ${table.injectName}DAO.updateById(${table.injectName}DO);
+            cacheService.del(buildCacheKey(${table.injectName}.getId()));
+            return num > 0;
+        } else {
+            return ${table.injectName}DAO.insert(${table.injectName}DO) > 0;
+        }
+    }
+
+    @Override
+    public ${table.beanName} find(Long id) {
+        if (id == null || id < 0) {
+            return null;
+        }
+
+        String cacheKey = buildCacheKey(id);
+        ${table.beanName}DO ${table.injectName}DO = cacheService.get(cacheKey, ${table.beanName}DO.class);
+
+        if (${table.injectName}DO == null) {
+            ${table.injectName}DO = ${table.injectName}DAO.findById(id);
+            if (${table.injectName}DO == null) {
+                return null;
+            } else {
+                cacheService.set(cacheKey, ${table.injectName}DO);
+            }
+        }
+
+        return ${table.injectName}Converter.toModel(${table.injectName}DO);
+    }
+
+    @Override
+    public boolean remove(Long id) {
+        if (id == null || id < 0) {
+            return true;
+        }
+        ${table.injectName}DAO.deleteById(id);
+        cacheService.del(buildCacheKey(id));
+        return num > 0;
+    }
+
+    private static final String CACHE_KEY_SUFFIX = "_X_CACHE"; // TODO
+    private static String buildCacheKey(Long id){
+        return id + CACHE_KEY_SUFFIX;
+    }
+
+}
