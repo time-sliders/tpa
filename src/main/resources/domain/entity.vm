@@ -1,3 +1,4 @@
+import lombok.Getter;
 #foreach($column in $table.columns)
 #if(!$column.javaType.startsWith("java.lang"))
 import ${column.javaType};
@@ -5,6 +6,7 @@ import ${column.javaType};
 #end
 
 ${config.fileHeader}
+@Getter
 public class ${table.beanName} {
 
     ////////////////////////////////////////////////////////////
@@ -69,6 +71,13 @@ public class ${table.beanName} {
     //  Getter (alt/cmd + N)
     ////////////////////////////////////////////////////////////
 
+
+    public synchronized void setId(Long id) {
+        if (this.id != null) {
+            throw new RuntimeException("id already exist!");
+        }
+        this.id = id;
+    }
 
 
     ////////////////////////////////////////////////////////////

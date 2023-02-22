@@ -22,7 +22,11 @@ public class ${table.beanName}RepositoryImpl implements ${table.beanName}Reposit
             cacheService.del(buildCacheKey(${table.injectName}.getId()));
             return num > 0;
         } else {
-            return ${table.injectName}DAO.insert(${table.injectName}DO) > 0;
+            int n = ${table.injectName}DAO.insert(${table.injectName}DO);
+            if (n > 0) {
+                ${table.injectName}.setId(${table.injectName}DO.getId());
+            }
+            return n > 0;
         }
     }
 
@@ -54,7 +58,7 @@ public class ${table.beanName}RepositoryImpl implements ${table.beanName}Reposit
         }
         ${table.injectName}DAO.deleteById(id);
         cacheService.del(buildCacheKey(id));
-        return num > 0;
+        return true;
     }
 
     private static final String CACHE_KEY_SUFFIX = "_X_CACHE"; // TODO

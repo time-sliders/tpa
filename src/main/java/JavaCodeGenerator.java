@@ -26,6 +26,7 @@ public class JavaCodeGenerator {
     private static final String schema = "arch";
     private static final String userName = "root";
     private static final String password = "root";
+    public static final String zipSavePath = "/Users/yongjian/Downloads/";
     private static BuildConfig config;
 
     public static void initConfig() {
@@ -44,7 +45,8 @@ public class JavaCodeGenerator {
     public static void main(String[] args) {
         initConfig();
         String[] tables = new String[]{
-                "app_extend",
+                "business_capability",
+                "capability"
         };
         for (String tableName : tables) {
             buildZipFile(tableName);
@@ -61,8 +63,10 @@ public class JavaCodeGenerator {
             tableConfig.setBeanName(beanName);
             tableConfig.setInjectName(StringUtils.getFistLowName(beanName));
 
-            File file = new File("/Users/yongjian/Downloads/" + beanName + ".zip");
+            String filePath = zipSavePath + beanName + ".zip";
+            File file = new File(filePath);
             if (file.exists() && !file.delete()) {
+                System.out.println("删除已存在的文件："+filePath +" 成功");
                 throw new RuntimeException("delete fail");
             }
             if (!file.createNewFile()) {
@@ -147,10 +151,7 @@ public class JavaCodeGenerator {
             String typeName = colRet.getString("TYPE_NAME");
             String comment = colRet.getString("REMARKS");
             comment = new String(comment.getBytes(), StandardCharsets.UTF_8);
-            boolean isPrimaryKey = false;
-            if (columnName.equals(primaryKey)) {
-                isPrimaryKey = true;
-            }
+            boolean isPrimaryKey = columnName.equals(primaryKey);
             try {
                 ColumnConfig columnConfig = buildConlumnConfig(columnName, columnType, isPrimaryKey);
                 columnConfig.setComment(comment);
