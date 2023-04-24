@@ -18,11 +18,12 @@
     </sql>
 
     <select id="FIND_BY_ID" parameterType="java.lang.Long" resultMap="BaseResultMap">
-        select <include refid="Base_Column_List" /> from ${table.tableName} where id = #{id}
+        SELECT <include refid="Base_Column_List" /> FROM ${table.tableName}
+        WHERE id = #{id}
     </select>
 
     <update id="DELETE_BY_ID" parameterType="java.lang.Long">
-        delete from ${table.tableName} where id = #{id}
+        DELETE FROM ${table.tableName} WHERE id = #{id}
     </update>
 
     <insert id="INSERT" parameterType="${table.beanName}" useGeneratedKeys="true" keyProperty="${table.primaryKey.fieldName}">
@@ -39,7 +40,7 @@
     </insert>
 
     <update id="UPDATE_BY_ID" parameterType="${table.beanName}">
-        update ${table.tableName}
+        UPDATE ${table.tableName}
         <set>
         #foreach($column in $table.columns)#if(!$column.isPrimaryKey())
             #if($column.javaType == 'java.lang.String')
@@ -53,7 +54,7 @@
             </if>
         #end#end
         </set>
-        where id = #{id}
+        WHERE id = #{id}
     </update>
 
 </mapper>

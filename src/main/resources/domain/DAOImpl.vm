@@ -14,32 +14,24 @@ public class ${table.beanName}DAOImpl
 
     @Override
     public ${table.beanName}DO findById(Long id) {
-
         Assert.notNull(id, "id不能为空");
-
         return this.getSqlSession().selectOne("${table.namespace}.FIND_BY_ID", id);
     }
 
     @Override
     public int updateById(${table.beanName}DO updateParam) {
-
         Assert.notNull(updateParam, "更新参数不能为空");
         Assert.notNull(updateParam.getId(), "id不能为空");
-
         updateParam.setGmtCreate(null);
         updateParam.setGmtModified(new Date());
-
         return this.getSqlSession().update("${table.namespace}.UPDATE_BY_ID", updateParam);
     }
 
     @Override
     public int insert(${table.beanName}DO ${table.injectName}DO) {
-
         checkParamForInsert(${table.injectName}DO);
-
         ${table.injectName}DO.setGmtCreate(new Date());
         ${table.injectName}DO.setGmtModified(new Date());
-
         return this.getSqlSession().insert("${table.namespace}.INSERT", ${table.injectName}DO);
     }
 
