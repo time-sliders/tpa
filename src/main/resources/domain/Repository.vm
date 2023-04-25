@@ -12,6 +12,11 @@ public interface ${table.beanName}Repository {
     ${table.beanName} find(Long id);
 
     /**
+     * 批量查询
+     */
+    List<${table.beanName}> findByIds(List<Long> ids);
+
+    /**
      * 删除数据
      */
     boolean remove(Long id);

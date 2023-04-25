@@ -19,6 +19,13 @@ public class ${table.beanName}DAOImpl
     }
 
     @Override
+    public List<${table.beanName}DO> findByIds(List<Long> ids) {
+        Assert.notEmpty(ids, "ids 不能为空");
+        return this.getSqlSession().selectList(
+            "${table.namespace}.FIND_BY_IDS", ids);
+    }
+
+    @Override
     public int updateById(${table.beanName}DO updateParam) {
         Assert.notNull(updateParam, "更新参数不能为空");
         Assert.notNull(updateParam.getId(), "id不能为空");

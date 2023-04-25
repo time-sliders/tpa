@@ -18,8 +18,16 @@
     </sql>
 
     <select id="FIND_BY_ID" parameterType="java.lang.Long" resultMap="BaseResultMap">
-        SELECT <include refid="Base_Column_List" /> FROM ${table.tableName}
+        SELECT <include refid="Base_Column_List" />
+        FROM ${table.tableName}
         WHERE id = #{id}
+    </select>
+
+    <select id="FIND_BY_IDS" resultType="list" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM ${table.tableName}
+        WHERE id IN (<foreach collection="list" item="item" index="index" separator=",">#{item}</foreach>)
     </select>
 
     <update id="DELETE_BY_ID" parameterType="java.lang.Long">

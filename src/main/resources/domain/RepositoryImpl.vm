@@ -52,6 +52,15 @@ public class ${table.beanName}RepositoryImpl implements ${table.beanName}Reposit
     }
 
     @Override
+    public List<${table.beanName}> findByIds(List<Long> ids) {
+        if (CollectionUtils.isEmpty(ids)) {
+            return null;
+        }
+        List<${table.beanName}DO> ${table.injectName}DOS = ${table.injectName}DAO.findByIds(ids);
+        return ${table.injectName}Converter.asModelList(${table.injectName}DOS);
+    }
+
+    @Override
     public boolean remove(Long id) {
         if (id == null || id < 0) {
             return true;
